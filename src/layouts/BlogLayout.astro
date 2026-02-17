@@ -1,0 +1,137 @@
+---
+/**
+ * Blog Post Layout
+ *
+ * Used for individual blog post pages (/blog/[slug]).
+ * Features clean reading typography, a table of contents
+ * (auto-generated from headings), and prev/next navigation.
+ */
+import BaseLayout from './BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  updatedDate?: Date;
+  tags: string[];
+  /** Headings extracted from the content for the table of contents */
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { title, description, publishDate, updatedDate, tags, headings } = Astro.props;
+
+const formattedDate = publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Get all published posts for prev/next navigation
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const currentIndex = allPosts.findIndex((post) => post.data.title === title);
+const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+
+// Filter headings for table of contents (h2 and h3 only)
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+<BaseLayout title={title} description={description} type="article" publishDate={publishDate}>
+  <article class="mx-auto max-w-[var(--content-max-width)] px-6 py-16">
+    <!-- Back link -->
+    <a
+      href="/blog/"
+      class="mb-8 inline-flex items-center text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]"
+    >
+      <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+      </svg>
+      All Posts
+    </a>
+
+    <!-- Header -->
+    <header class="mb-10">
+      <h1 class="mb-4 text-3xl font-bold text-[var(--text-heading)] md:text-4xl">{title}</h1>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--text-secondary)]">
+        <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+        {updatedDate && (
+          <>
+            <span class="text-[var(--border)]">|</span>
+            <span>Updated {formattedUpdatedDate}</span>
+          </>
+        )}
+      </div>
+
+      <div class="mt-4 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="rounded-full bg-[var(--accent-muted)] px-3 py-1 font-mono text-xs text-[var(--accent)]">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    <!-- Table of Contents (shown if post has 3+ headings) -->
+    {tocHeadings.length >= 3 && (
+      <nav class="mb-10 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5" aria-label="Table of contents">
+        <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+          On this page
+        </p>
+        <ul class="space-y-2">
+          {tocHeadings.map((heading) => (
+            <li style={heading.depth === 3 ? 'padding-left: 1rem;' : ''}>
+              <a
+                href={`#${heading.slug}`}
+                class="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]"
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    <!-- Post Content (MDX) -->
+    <div class="prose">
+      <slot />
+    </div>
+
+    <!-- Prev / Next Navigation -->
+    <nav class="mt-16 grid gap-4 border-t border-[var(--border)] pt-8 sm:grid-cols-2" aria-label="Post navigation">
+      {prevPost ? (
+        <a
+          href={`/blog/${prevPost.id}/`}
+          class="group rounded-lg border border-[var(--border)] p-4 transition-colors hover:border-[var(--accent)]"
+        >
+          <span class="text-xs text-[var(--text-secondary)]">Previous</span>
+          <p class="mt-1 font-medium text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent)]">
+            {prevPost.data.title}
+          </p>
+        </a>
+      ) : <div />}
+
+      {nextPost && (
+        <a
+          href={`/blog/${nextPost.id}/`}
+          class="group rounded-lg border border-[var(--border)] p-4 text-right transition-colors hover:border-[var(--accent)]"
+        >
+          <span class="text-xs text-[var(--text-secondary)]">Next</span>
+          <p class="mt-1 font-medium text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent)]">
+            {nextPost.data.title}
+          </p>
+        </a>
+      )}
+    </nav>
+  </article>
+</BaseLayout>

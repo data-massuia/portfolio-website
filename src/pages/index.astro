@@ -1,0 +1,159 @@
+---
+/**
+ * Homepage
+ *
+ * The first thing visitors see. Features:
+ * - A bold, text-forward hero with name and tagline
+ * - A subtle typing animation in a terminal-style element
+ * - A "Currently working on" live status indicator
+ * - Quick links to key sections
+ * - A brief intro paragraph
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Home"
+  description="Douglas — Vibe Coder. Building my way from zero to full-stack, one project at a time. A beginner developer's portfolio and learning journal."
+>
+  <!-- Hero Section -->
+  <section class="mx-auto max-w-[var(--page-max-width)] px-6 py-16 md:py-24">
+    <div class="max-w-2xl">
+      <!-- Greeting -->
+      <p class="mb-4 font-mono text-sm text-[var(--accent)]">
+        Hi, my name is
+      </p>
+
+      <!-- Name -->
+      <h1 class="mb-2 text-4xl font-extrabold text-[var(--text-heading)] sm:text-5xl md:text-6xl">
+        Douglas<span class="text-[var(--accent)]">.</span>
+      </h1>
+
+      <!-- Tagline -->
+      <h2 class="mb-6 text-2xl font-semibold text-[var(--text-secondary)] sm:text-3xl md:text-4xl">
+        Vibe Coder — Building from zero to full-stack.
+      </h2>
+
+      <!-- Intro paragraph -->
+      <!-- TODO: Replace with your own intro -->
+      <p class="mb-8 max-w-lg text-base leading-relaxed text-[var(--text-secondary)] md:text-lg">
+        I'm a beginner developer in Vancouver, Canada, documenting my journey learning to code
+        through <span class="text-[var(--text-primary)]">vibe coding</span> — describing what I want to build,
+        learning from AI-generated code, and growing one project at a time.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/projects/"
+          class="inline-flex items-center rounded-lg border border-[var(--accent)] px-6 py-3 font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent-muted)]"
+        >
+          View My Projects
+        </a>
+        <a
+          href="/blog/"
+          class="inline-flex items-center rounded-lg px-6 py-3 font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
+        >
+          Read My Journey
+          <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Terminal Animation -->
+    <div class="mt-16 max-w-lg">
+      <div class="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)]">
+        <!-- Terminal title bar -->
+        <div class="flex items-center gap-2 border-b border-[var(--border)] px-4 py-2">
+          <div class="h-3 w-3 rounded-full bg-red-500/60"></div>
+          <div class="h-3 w-3 rounded-full bg-yellow-500/60"></div>
+          <div class="h-3 w-3 rounded-full bg-green-500/60"></div>
+          <span class="ml-2 font-mono text-xs text-[var(--text-secondary)]">~/douglas</span>
+        </div>
+        <!-- Terminal content with typing animation -->
+        <div class="p-4 font-mono text-sm">
+          <p class="text-[var(--text-secondary)]">
+            <span class="text-[var(--accent)]">$</span> cat current-status.txt
+          </p>
+          <div class="mt-2" id="terminal-output">
+            <p class="text-[var(--text-primary)]">
+              <span class="text-[var(--accent)]">></span> Learning: Python fundamentals & game dev
+            </p>
+            <p class="text-[var(--text-primary)]">
+              <span class="text-[var(--accent)]">></span> Building: Portfolio website (you're looking at it!)
+            </p>
+            <p class="text-[var(--text-primary)]">
+              <span class="text-[var(--accent)]">></span> Exploring: Astro, Tailwind CSS, TypeScript
+            </p>
+          </div>
+          <p class="mt-2 text-[var(--text-secondary)]">
+            <span class="text-[var(--accent)]">$</span>
+            <span class="ml-1 inline-block h-4 w-2 animate-pulse bg-[var(--accent)]"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Currently Working On -->
+  <section class="mx-auto max-w-[var(--page-max-width)] px-6 pb-16">
+    <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-6">
+      <div class="flex items-center gap-3">
+        <!-- Pulsing dot to indicate "live" -->
+        <span class="relative flex h-3 w-3">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
+        </span>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+          Currently Working On
+        </h3>
+      </div>
+      <!-- TODO: Update this as you work on new things -->
+      <p class="mt-3 text-lg text-[var(--text-primary)]">
+        12-project game development course in Python — building classic games while learning fundamentals
+      </p>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <span class="rounded-full bg-[var(--accent-muted)] px-3 py-1 font-mono text-xs text-[var(--accent)]">
+          Python
+        </span>
+        <span class="rounded-full bg-[var(--accent-muted)] px-3 py-1 font-mono text-xs text-[var(--accent)]">
+          Pygame
+        </span>
+        <span class="rounded-full bg-[var(--accent-muted)] px-3 py-1 font-mono text-xs text-[var(--accent)]">
+          Game Dev
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick About Section -->
+  <section class="mx-auto max-w-[var(--page-max-width)] px-6 pb-24">
+    <h2 class="mb-8 text-2xl font-bold text-[var(--text-heading)]">
+      What is <span class="text-[var(--accent)]">Vibe Coding</span>?
+    </h2>
+    <div class="max-w-2xl space-y-4 text-[var(--text-secondary)]">
+      <!-- TODO: Customize this explanation in your own words -->
+      <p>
+        Vibe coding is a new approach to learning software development where you describe
+        what you want to build in plain English, work with AI tools to generate the code,
+        and then <span class="text-[var(--text-primary)]">study the output to understand how it works</span>.
+      </p>
+      <p>
+        It's not about blindly copying code — it's about using AI as a patient tutor
+        that shows you working solutions you can learn from, question, and iterate on.
+        Every project I build teaches me something new.
+      </p>
+      <a
+        href="/about/"
+        class="inline-flex items-center text-[var(--accent)] transition-opacity hover:opacity-80"
+      >
+        Learn more about my approach
+        <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,52 @@
+---
+/**
+ * SkillCard Component
+ *
+ * Displays a technology/skill with an honest proficiency level.
+ * Instead of dishonest "90% proficient" bars, we use three clear
+ * categories: Learning, Comfortable, and Building With.
+ *
+ * The card has a subtle accent border that intensifies based on level.
+ */
+interface Props {
+  name: string;
+  level: 'learning' | 'comfortable' | 'building';
+  icon?: string;
+}
+
+const { name, level } = Astro.props;
+
+// Map levels to display labels and visual styles
+const levelConfig = {
+  learning: {
+    label: 'Learning',
+    dotColor: 'bg-yellow-400',
+    borderOpacity: 'border-[var(--accent)]/20',
+  },
+  comfortable: {
+    label: 'Comfortable',
+    dotColor: 'bg-blue-400',
+    borderOpacity: 'border-[var(--accent)]/50',
+  },
+  building: {
+    label: 'Building With',
+    dotColor: 'bg-green-400',
+    borderOpacity: 'border-[var(--accent)]/80',
+  },
+};
+
+const config = levelConfig[level];
+---
+
+<div
+  class:list={[
+    'rounded-lg border bg-[var(--bg-secondary)] p-4 transition-all card-hover',
+    config.borderOpacity,
+  ]}
+>
+  <p class="font-medium text-[var(--text-primary)]">{name}</p>
+  <div class="mt-2 flex items-center gap-2">
+    <span class:list={['h-2 w-2 rounded-full', config.dotColor]}></span>
+    <span class="text-xs text-[var(--text-secondary)]">{config.label}</span>
+  </div>
+</div>

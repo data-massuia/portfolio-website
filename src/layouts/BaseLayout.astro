@@ -1,0 +1,75 @@
+---
+/**
+ * Base Layout
+ *
+ * The master template for every page on the site. It includes:
+ * - The global CSS (design system + Tailwind)
+ * - SEO meta tags via the SEO component
+ * - Header and Footer
+ * - Skip-to-content accessibility link
+ * - An inline script to prevent theme flicker on load
+ *
+ * Every page and layout in the site extends this one.
+ */
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+}
+
+const { title, description, image, type, publishDate } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      publishDate={publishDate}
+    />
+
+    <!--
+      Inline theme script — runs BEFORE the page renders to prevent
+      a flash of the wrong theme. This must be in <head>, not deferred.
+    -->
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'light' || (!saved && !prefersDark)) {
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Accessibility: skip navigation link -->
+    <a href="#main-content" class="skip-to-content">
+      Skip to content
+    </a>
+
+    <Header />
+
+    <!-- Main content area with top padding to clear the fixed header -->
+    <main id="main-content" class="flex-1 pt-20 page-fade-in">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

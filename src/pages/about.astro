@@ -1,0 +1,163 @@
+---
+/**
+ * About Page
+ *
+ * Tells the visitor who Douglas is, what vibe coding means,
+ * and shows a skills grid with honest proficiency levels.
+ * Also lists the tools used in the daily workflow.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkillCard from '../components/SkillCard.astro';
+
+// Skills data — easy to update as you grow
+const skills = [
+  { name: 'HTML', level: 'comfortable' as const },
+  { name: 'CSS', level: 'comfortable' as const },
+  { name: 'JavaScript', level: 'learning' as const },
+  { name: 'TypeScript', level: 'learning' as const },
+  { name: 'Python', level: 'learning' as const },
+  { name: 'React', level: 'learning' as const },
+  { name: 'Astro', level: 'building' as const },
+  { name: 'Tailwind CSS', level: 'building' as const },
+  { name: 'Node.js', level: 'learning' as const },
+  { name: 'Git / GitHub', level: 'comfortable' as const },
+];
+
+// Tools in the daily workflow
+const tools = [
+  { name: 'VS Code', description: 'Primary code editor' },
+  { name: 'Claude Code', description: 'AI-assisted development' },
+  { name: 'WSL', description: 'Linux dev environment on Windows' },
+  { name: 'Obsidian', description: 'Notes and knowledge management' },
+  { name: 'GitHub', description: 'Version control and project hosting' },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about Douglas — a beginner developer in Vancouver documenting the journey from zero to full-stack through vibe coding."
+>
+  <div class="mx-auto max-w-[var(--page-max-width)] px-6 py-16">
+    <!-- Page Header -->
+    <h1 class="mb-4 text-3xl font-bold text-[var(--text-heading)] md:text-4xl">
+      About Me
+    </h1>
+    <div class="mb-12 h-1 w-16 rounded bg-[var(--accent)]"></div>
+
+    <!-- My Story -->
+    <section class="mb-16 max-w-[var(--content-max-width)]">
+      <h2 class="mb-6 text-xl font-semibold text-[var(--text-heading)]">
+        My Story
+      </h2>
+      <!-- TODO: Replace with your own story -->
+      <div class="space-y-4 text-[var(--text-secondary)]">
+        <p>
+          I'm Douglas, based in Vancouver, Canada. I'm at the very beginning of my software
+          development journey — and I'm documenting every step of it.
+        </p>
+        <p>
+          I discovered <span class="text-[var(--text-primary)]">vibe coding</span> as a way
+          to bridge the gap between having ideas and being able to build them. Instead of
+          spending months learning theory before touching real projects, I describe what I
+          want to create, work with AI tools to generate the code, and then study every
+          line to understand <em>how</em> and <em>why</em> it works.
+        </p>
+        <p>
+          This portfolio is itself a vibe coding project — built with Astro and Tailwind CSS
+          using Claude Code. It's proof that you can build real, professional-quality things
+          while still learning, as long as you're honest about where you are and committed
+          to understanding what you're building.
+        </p>
+      </div>
+    </section>
+
+    <!-- What is Vibe Coding? -->
+    <section class="mb-16 max-w-[var(--content-max-width)]">
+      <h2 class="mb-6 text-xl font-semibold text-[var(--text-heading)]">
+        What is Vibe Coding?
+      </h2>
+      <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-6">
+        <!-- TODO: Customize this in your own words -->
+        <p class="mb-4 text-[var(--text-secondary)]">
+          Vibe coding is an approach to software development where you describe your desired
+          outcome in natural language and collaborate with AI to generate the code. But
+          here's the important part:
+        </p>
+        <ul class="space-y-3 text-[var(--text-secondary)]">
+          <li class="flex gap-3">
+            <span class="mt-1 text-[var(--accent)]">1.</span>
+            <span><span class="text-[var(--text-primary)]">Describe</span> — Explain what you want to build in plain English</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 text-[var(--accent)]">2.</span>
+            <span><span class="text-[var(--text-primary)]">Generate</span> — Work with AI to produce working code</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 text-[var(--accent)]">3.</span>
+            <span><span class="text-[var(--text-primary)]">Study</span> — Read and understand every line of the generated code</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 text-[var(--accent)]">4.</span>
+            <span><span class="text-[var(--text-primary)]">Iterate</span> — Ask questions, refine, and make it your own</span>
+          </li>
+        </ul>
+        <p class="mt-4 text-sm text-[var(--text-secondary)]">
+          It's not about skipping the learning — it's about learning through building real
+          things with a patient, tireless tutor.
+        </p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="mb-16">
+      <h2 class="mb-2 text-xl font-semibold text-[var(--text-heading)]">
+        Skills & Technologies
+      </h2>
+      <p class="mb-6 text-sm text-[var(--text-secondary)]">
+        Honest proficiency levels — these will grow as I learn.
+      </p>
+
+      <!-- Legend -->
+      <div class="mb-6 flex flex-wrap gap-4 text-xs text-[var(--text-secondary)]">
+        <span class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-yellow-400"></span> Learning
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-blue-400"></span> Comfortable
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-green-400"></span> Building With
+        </span>
+      </div>
+
+      <!-- Skills Grid -->
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        {skills.map((skill) => (
+          <SkillCard name={skill.name} level={skill.level} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section class="mb-16 max-w-[var(--content-max-width)]">
+      <h2 class="mb-6 text-xl font-semibold text-[var(--text-heading)]">
+        My Toolbox
+      </h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        {tools.map((tool) => (
+          <div class="flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <span class="mt-0.5 text-[var(--accent)]">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+            </span>
+            <div>
+              <p class="font-medium text-[var(--text-primary)]">{tool.name}</p>
+              <p class="text-sm text-[var(--text-secondary)]">{tool.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

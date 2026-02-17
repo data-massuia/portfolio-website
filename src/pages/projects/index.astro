@@ -1,0 +1,65 @@
+---
+/**
+ * Projects Index Page
+ *
+ * Displays all projects as a grid of cards. Projects are pulled
+ * from the content collection (src/content/projects/) and sorted
+ * by sortOrder (featured first) then by date.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch all non-draft projects, sorted by sortOrder then date
+const projects = (await getCollection('projects'))
+  .sort((a, b) => {
+    // Featured (higher sortOrder) first, then by date
+    if (a.data.sortOrder !== b.data.sortOrder) return b.data.sortOrder - a.data.sortOrder;
+    return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+  });
+---
+
+<BaseLayout
+  title="Projects"
+  description="Browse Douglas's portfolio of projects — from beginner experiments to full-stack applications, all built through vibe coding."
+>
+  <div class="mx-auto max-w-[var(--page-max-width)] px-6 py-16">
+    <!-- Page Header -->
+    <h1 class="mb-4 text-3xl font-bold text-[var(--text-heading)] md:text-4xl">
+      Projects
+    </h1>
+    <div class="mb-4 h-1 w-16 rounded bg-[var(--accent)]"></div>
+    <p class="mb-12 max-w-lg text-[var(--text-secondary)]">
+      Everything I've built so far. Each project is a learning experience —
+      click through for the full story of how it was made.
+    </p>
+
+    <!-- Projects Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          tags={project.data.tags}
+          status={project.data.status}
+          demoUrl={project.data.demoUrl}
+          repoUrl={project.data.repoUrl}
+          slug={project.id}
+          keyLearning={project.data.keyLearning}
+          thumbnail={project.data.thumbnail}
+        />
+      ))}
+
+      <!-- Coming Soon placeholder cards -->
+      {[1, 2].map((i) => (
+        <div class="flex flex-col items-center justify-center rounded-lg border border-dashed border-[var(--border)] bg-[var(--bg-secondary)]/50 p-8 text-center min-h-[300px]">
+          <svg class="mb-3 h-10 w-10 text-[var(--text-secondary)] opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          <p class="text-sm font-medium text-[var(--text-secondary)]">Coming Soon</p>
+          <p class="mt-1 text-xs text-[var(--text-secondary)] opacity-60">Next project in the works...</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

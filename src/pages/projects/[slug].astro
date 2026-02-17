@@ -1,0 +1,36 @@
+---
+/**
+ * Dynamic Project Page
+ *
+ * Renders individual project writeups from the content collection.
+ * The [slug] in the filename tells Astro to generate one page per
+ * project MDX file in src/content/projects/.
+ */
+import { getCollection, render } from 'astro:content';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+
+// Generate static paths for all projects at build time
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<ProjectLayout
+  title={project.data.title}
+  description={project.data.description}
+  publishDate={project.data.publishDate}
+  tags={project.data.tags}
+  status={project.data.status}
+  demoUrl={project.data.demoUrl}
+  repoUrl={project.data.repoUrl}
+  keyLearning={project.data.keyLearning}
+>
+  <Content />
+</ProjectLayout>

@@ -1,0 +1,66 @@
+---
+title: "Portfolio Website"
+description: "My personal portfolio and learning journal — built with Astro + Tailwind CSS using Claude Code. My first real web project."
+publishDate: 2026-02-16
+tags: ["astro", "tailwind-css", "typescript", "mdx"]
+status: "completed"
+repoUrl: "https://github.com/yourusername/portfolio"
+featured: true
+keyLearning: "Learned how static site generators work, how Tailwind utility classes compose into complete designs, and how content collections provide type-safe content management."
+sortOrder: 10
+---
+
+## The Problem
+
+I needed a professional online presence to showcase my work and document my learning journey. Most portfolio templates felt either too generic or too advanced for where I am — I wanted something that honestly represents a beginner who's serious about growing.
+
+## My Approach
+
+This was a pure vibe coding project. I described the entire site — every page, every component, every design decision — in natural language and worked with Claude Code to generate the implementation.
+
+### What I described:
+- A dark-themed, minimalist design inspired by portfolios I admired
+- Specific pages: home, about, projects, blog, roadmap, contact
+- A skills section with honest proficiency levels (not inflated "90% bars")
+- A blog powered by Markdown so I can write without touching code
+- Mobile-responsive, accessible, and fast
+
+### How the code was generated:
+Claude Code built the entire project step by step:
+1. First the project scaffold — Astro with Tailwind and MDX
+2. Then the design system — colors, typography, spacing
+3. Then the layout shell — header, footer, base layout
+4. Then each page, one at a time
+5. Finally, the content and polish
+
+## What I Learned
+
+{/* TODO: Fill in your actual learnings as you study the code */}
+
+### Astro's Architecture
+- Astro components use a frontmatter section (between `---` fences) for JavaScript/TypeScript logic, and the template below for HTML
+- Content Collections provide a typed schema for Markdown frontmatter — if I misspell a field, I get an error at build time
+- Static site generation means the site ships zero JavaScript by default — only what I explicitly add
+
+### Tailwind CSS
+- Utility classes like `px-6 py-4 rounded-lg` compose together to build any design without writing custom CSS
+- Tailwind v4 uses CSS-first configuration with `@theme` blocks instead of a JavaScript config file
+- CSS custom properties (variables) make the dark/light theme toggle work smoothly
+
+### Component-Based Thinking
+- Breaking the UI into reusable pieces (Header, Footer, ProjectCard, SkillCard) makes the code organized and maintainable
+- Props let components accept different data while keeping the same visual structure
+
+## Challenges
+
+{/* TODO: Document challenges you encountered */}
+
+1. **CSS import ordering** — The `@import url(...)` statements for Google Fonts had to come before other CSS rules. This caused a build warning until we moved them to the top of the file.
+
+2. **Content collection schema** — Getting the TypeScript types right for frontmatter fields required understanding Zod validation schemas.
+
+3. **Theme toggle without flash** — The dark/light mode toggle needed an inline script in `<head>` to prevent a flash of the wrong theme on page load.
+
+## Result
+
+A clean, fast, accessible portfolio that I'm proud of — and more importantly, one that I understand. Every component, every style choice, every line of configuration has been something I've studied and can explain.

@@ -1,0 +1,79 @@
+---
+/**
+ * RoadmapItem Component
+ *
+ * A single item on the /roadmap timeline. Shows a milestone with
+ * its status, description, date, and optional links to related
+ * projects or blog posts.
+ */
+interface Props {
+  title: string;
+  description: string;
+  status: 'completed' | 'in-progress' | 'planned' | 'long-term';
+  date?: string;
+  link?: { href: string; label: string };
+}
+
+const { title, description, status, date, link } = Astro.props;
+
+// Visual configuration per status
+const statusConfig = {
+  'completed': {
+    icon: '✅',
+    dotColor: 'bg-green-500',
+    lineColor: 'border-green-500/30',
+    textColor: 'text-[var(--text-primary)]',
+  },
+  'in-progress': {
+    icon: '🔄',
+    dotColor: 'bg-yellow-500',
+    lineColor: 'border-yellow-500/30',
+    textColor: 'text-[var(--text-primary)]',
+  },
+  'planned': {
+    icon: '📋',
+    dotColor: 'bg-blue-400',
+    lineColor: 'border-blue-400/30',
+    textColor: 'text-[var(--text-secondary)]',
+  },
+  'long-term': {
+    icon: '🎯',
+    dotColor: 'bg-purple-400',
+    lineColor: 'border-purple-400/30',
+    textColor: 'text-[var(--text-secondary)]',
+  },
+};
+
+const config = statusConfig[status];
+---
+
+<div class="relative flex gap-4 pb-8 last:pb-0">
+  <!-- Timeline line + dot -->
+  <div class="flex flex-col items-center">
+    <div class:list={['h-4 w-4 rounded-full border-2 flex-shrink-0', config.dotColor, 'border-[var(--bg-primary)]']}></div>
+    <div class="w-px flex-1 bg-[var(--border)]"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="-mt-0.5 flex-1 pb-4">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="text-sm">{config.icon}</span>
+      <h3 class:list={['font-medium', config.textColor]}>{title}</h3>
+      {date && (
+        <span class="text-xs text-[var(--text-secondary)]">— {date}</span>
+      )}
+    </div>
+    <p class="mt-1 text-sm text-[var(--text-secondary)]">{description}</p>
+    {link && (
+      <a
+        href={link.href}
+        class="mt-2 inline-flex items-center text-xs text-[var(--accent)] transition-opacity hover:opacity-80"
+      >
+        {link.label}
+        <svg class="ml-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    )}
+  </div>
+</div>

@@ -1,0 +1,117 @@
+---
+/**
+ * Roadmap Page
+ *
+ * A visual timeline showing the learning journey — completed milestones,
+ * current work, upcoming goals, and long-term aspirations.
+ * Each milestone can link to a related project or blog post.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RoadmapItem from '../components/RoadmapItem.astro';
+
+// Roadmap data — update this as you progress
+// TODO: Update dates and links as you complete milestones
+const milestones = [
+  {
+    title: 'Set up development environment',
+    description: 'Installed WSL, VS Code, Git, Node.js, and configured everything for web development.',
+    status: 'completed' as const,
+    date: 'Feb 2026',
+  },
+  {
+    title: 'Learn Git basics & create GitHub account',
+    description: 'Learned branching, committing, pushing, and pull requests. Set up GitHub profile.',
+    status: 'completed' as const,
+    date: 'Feb 2026',
+  },
+  {
+    title: 'Build portfolio website',
+    description: 'Designed and built this portfolio site with Astro + Tailwind CSS using Claude Code.',
+    status: 'completed' as const,
+    date: 'Feb 2026',
+    link: { href: '/projects/portfolio-website/', label: 'View project writeup' },
+  },
+  {
+    title: 'Complete 12-project game development course',
+    description: 'Building classic games (Pong, Snake, Tetris, etc.) in Python to learn programming fundamentals.',
+    status: 'in-progress' as const,
+    date: 'Feb–Apr 2026',
+  },
+  {
+    title: 'Learn Python fundamentals',
+    description: 'Variables, loops, functions, classes, file I/O, and error handling through hands-on projects.',
+    status: 'in-progress' as const,
+    date: 'Ongoing',
+  },
+  {
+    title: 'Build first React project',
+    description: 'Create an interactive web application using React to learn component-based UI development.',
+    status: 'planned' as const,
+  },
+  {
+    title: 'Learn Node.js & backend basics',
+    description: 'APIs, databases, authentication — understanding the server side of web development.',
+    status: 'planned' as const,
+  },
+  {
+    title: 'Build a full-stack application',
+    description: 'Combine frontend and backend skills into a complete, deployed web application.',
+    status: 'planned' as const,
+  },
+  {
+    title: 'Contribute to an open-source project',
+    description: 'Find a beginner-friendly open-source project and submit a meaningful pull request.',
+    status: 'long-term' as const,
+  },
+  {
+    title: 'Land first freelance or junior developer role',
+    description: 'Apply skills to real-world work — either freelancing or joining a team.',
+    status: 'long-term' as const,
+  },
+];
+---
+
+<BaseLayout
+  title="Roadmap"
+  description="Follow Douglas's learning roadmap — from setting up a dev environment to landing a developer role. An honest tracker of progress and goals."
+>
+  <div class="mx-auto max-w-[var(--content-max-width)] px-6 py-16">
+    <!-- Page Header -->
+    <h1 class="mb-4 text-3xl font-bold text-[var(--text-heading)] md:text-4xl">
+      Roadmap
+    </h1>
+    <div class="mb-4 h-1 w-16 rounded bg-[var(--accent)]"></div>
+    <p class="mb-12 text-[var(--text-secondary)]">
+      My learning path from zero to full-stack. Updated as I progress — this is a living document.
+    </p>
+
+    <!-- Legend -->
+    <div class="mb-8 flex flex-wrap gap-4 text-xs text-[var(--text-secondary)]">
+      <span class="flex items-center gap-2">
+        <span class="h-2.5 w-2.5 rounded-full bg-green-500"></span> Completed
+      </span>
+      <span class="flex items-center gap-2">
+        <span class="h-2.5 w-2.5 rounded-full bg-yellow-500"></span> In Progress
+      </span>
+      <span class="flex items-center gap-2">
+        <span class="h-2.5 w-2.5 rounded-full bg-blue-400"></span> Planned
+      </span>
+      <span class="flex items-center gap-2">
+        <span class="h-2.5 w-2.5 rounded-full bg-purple-400"></span> Long-term
+      </span>
+    </div>
+
+    <!-- Timeline -->
+    <div class="ml-2">
+      {milestones.map((milestone) => (
+        <RoadmapItem
+          title={milestone.title}
+          description={milestone.description}
+          status={milestone.status}
+          date={milestone.date}
+          link={milestone.link}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,100 @@
+---
+title: "Building My Portfolio: What I Learned From My First Astro Project"
+description: "A deep dive into building my portfolio website with Astro and Tailwind CSS — the tech choices, the process, and every lesson learned along the way."
+publishDate: 2026-02-16
+tags: ["astro", "tailwind-css", "web-dev", "vibe-coding"]
+draft: false
+---
+
+## Why Astro?
+
+{/* TODO: Replace with your actual reasoning and experiences */}
+
+When I decided to build a portfolio, I needed to choose a framework. Here's why Astro made sense for a beginner:
+
+- **Ships minimal JavaScript** — the site is fast by default because Astro sends pure HTML unless you explicitly add interactivity
+- **Markdown/MDX support** — I can write blog posts in Markdown files without touching component code
+- **Content Collections** — provides a typed schema for my content, so I catch errors at build time
+- **Great developer experience** — hot reload, clear error messages, and excellent docs
+
+## The Process
+
+### Step 1: Describing the Vision
+
+Before any code was written, I described exactly what I wanted:
+- A dark-themed, minimalist portfolio
+- Specific pages with specific purposes
+- Design details: colors, typography, spacing
+- Accessibility requirements
+- Content management approach
+
+The more specific the description, the better the generated code.
+
+### Step 2: Building the Foundation
+
+The project started with the structural pieces:
+1. **Design system** — Colors, fonts, and spacing defined as CSS custom properties
+2. **Base layout** — The HTML shell shared by every page
+3. **Header & Footer** — Navigation and site-wide elements
+4. **Theme toggle** — Dark/light mode with system preference detection
+
+### Step 3: Pages, One at a Time
+
+Each page was built sequentially, starting simple and adding complexity:
+- Homepage hero section
+- About page with skills grid
+- Projects grid with card components
+- Blog listing and post layout
+- Roadmap timeline
+- Contact page
+
+## Key Learnings
+
+### CSS Custom Properties Are Powerful
+
+The theme toggle works by swapping CSS custom properties on the root element:
+
+```css
+/* Dark theme (default) */
+:root {
+  --bg-primary: #0a192f;
+  --text-primary: #ccd6f6;
+}
+
+/* Light theme */
+:root.light {
+  --bg-primary: #f8f9fc;
+  --text-primary: #1a202c;
+}
+```
+
+Every component uses `var(--bg-primary)` instead of a hardcoded color, so changing the theme is instant.
+
+### Content Collections Are Game-Changing
+
+Instead of hardcoding project data, Astro's Content Collections let me define a schema and write content in Markdown files. Adding a new blog post is as simple as creating a new `.mdx` file — no code changes needed.
+
+### Accessibility Matters From Day One
+
+Building in accessibility from the start is much easier than adding it later:
+- Semantic HTML (`nav`, `main`, `article`, `section`)
+- Skip-to-content link for keyboard users
+- Proper heading hierarchy
+- ARIA labels on icon-only buttons
+- Visible focus indicators
+
+## What I'd Do Differently
+
+{/* TODO: Fill in after you've lived with the site for a bit */}
+
+1. I'd spend more time on the mobile design from the start
+2. I'd write the content before building the components
+3. I'd set up automated testing earlier
+
+## What's Next
+
+Now that the portfolio is live, I need to fill it with real content. Every project I build, every lesson I learn, will be documented here. The portfolio is the beginning — not the end.
+
+---
+
+*This is post #2 in my learning journal. Read [post #1](/blog/day-1-why-vibe-coding/) for why I chose vibe coding as my learning approach.*
