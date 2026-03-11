@@ -6,10 +6,17 @@
  * - A bold, text-forward hero with name and tagline
  * - A subtle typing animation in a terminal-style element
  * - A "Currently working on" live status indicator
- * - Quick links to key sections
+ * - Featured project preview
  * - A brief intro paragraph
+ * - Connect CTA
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch featured projects for the homepage preview
+const featuredProjects = (await getCollection('projects', ({ data }) => data.featured))
+  .sort((a, b) => b.data.sortOrder - a.data.sortOrder)
+  .slice(0, 2);
 ---
 
 <BaseLayout
@@ -31,28 +38,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <!-- Tagline -->
       <h2 class="mb-6 text-2xl font-semibold text-[var(--text-secondary)] sm:text-3xl md:text-4xl">
-        Vibe Coder — Building from zero to full-stack.
+        Building in public — from zero to full-stack developer.
       </h2>
 
       <!-- Intro paragraph -->
-      <!-- TODO: Replace with your own intro -->
       <p class="mb-8 max-w-lg text-base leading-relaxed text-[var(--text-secondary)] md:text-lg">
-        I'm a beginner developer in Vancouver, Canada, documenting my journey learning to code
-        through <span class="text-[var(--text-primary)]">vibe coding</span> — describing what I want to build,
-        learning from AI-generated code, and growing one project at a time.
+        I'm Douglas Massuia, a beginner developer in Vancouver documenting every step of my
+        journey through <span class="text-[var(--text-primary)]">vibe coding</span> — describing what I want to build,
+        studying the AI-generated code, and growing one project at a time.
       </p>
 
-      <!-- CTA Buttons -->
+      <!-- CTA Buttons — one primary, one secondary (article: one primary CTA per page) -->
       <div class="flex flex-wrap gap-4">
         <a
           href="/projects/"
-          class="inline-flex items-center rounded-lg border border-[var(--accent)] px-6 py-3 font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent-muted)]"
+          class="inline-flex items-center rounded-lg bg-[var(--accent)] px-6 py-3 font-medium text-[var(--bg-primary)] transition-opacity hover:opacity-90"
         >
           View My Projects
         </a>
         <a
           href="/blog/"
-          class="inline-flex items-center rounded-lg px-6 py-3 font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
+          class="inline-flex items-center rounded-lg border border-[var(--border)] px-6 py-3 font-medium text-[var(--text-secondary)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
         >
           Read My Journey
           <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -128,13 +134,68 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  <!-- Featured Projects Section -->
+  {featuredProjects.length > 0 && (
+    <section class="mx-auto max-w-[var(--page-max-width)] px-6 pb-16">
+      <div class="mb-8 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-[var(--text-heading)]">
+          Featured <span class="text-[var(--accent)]">Work</span>
+        </h2>
+        <a
+          href="/projects/"
+          class="text-sm text-[var(--accent)] transition-opacity hover:opacity-80"
+        >
+          All projects →
+        </a>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2">
+        {featuredProjects.map((project) => (
+          <article class="group flex flex-col rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] overflow-hidden card-hover">
+            <div class="flex flex-1 flex-col p-5">
+              <div class="mb-3 flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-[var(--text-heading)] group-hover:text-[var(--accent)] transition-colors">
+                  <a href={`/projects/${project.id}/`}>{project.data.title}</a>
+                </h3>
+                <span class="rounded-full bg-green-500/20 px-2 py-0.5 text-xs font-medium text-green-400">
+                  {project.data.status === 'completed' ? 'Completed' : project.data.status}
+                </span>
+              </div>
+              <p class="mb-4 flex-1 text-sm text-[var(--text-secondary)]">{project.data.description}</p>
+              {project.data.keyLearning && (
+                <p class="mb-4 rounded border-l-2 border-[var(--accent)] bg-[var(--accent-muted)] px-3 py-2 text-xs text-[var(--text-secondary)]">
+                  <span class="font-semibold text-[var(--accent)]">Key learning:</span> {project.data.keyLearning}
+                </p>
+              )}
+              <div class="mb-4 flex flex-wrap gap-2">
+                {project.data.tags.map((tag) => (
+                  <span class="rounded-full bg-[var(--accent-muted)] px-2 py-0.5 font-mono text-xs text-[var(--accent)]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div class="flex items-center gap-4 border-t border-[var(--border)] pt-3 text-sm">
+                <a href={`/projects/${project.id}/`} class="text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]">
+                  Case Study
+                </a>
+                {project.data.repoUrl && (
+                  <a href={project.data.repoUrl} target="_blank" rel="noopener noreferrer" class="text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]">
+                    GitHub
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
   <!-- Quick About Section -->
-  <section class="mx-auto max-w-[var(--page-max-width)] px-6 pb-24">
+  <section class="mx-auto max-w-[var(--page-max-width)] px-6 pb-16">
     <h2 class="mb-8 text-2xl font-bold text-[var(--text-heading)]">
       What is <span class="text-[var(--accent)]">Vibe Coding</span>?
     </h2>
     <div class="max-w-2xl space-y-4 text-[var(--text-secondary)]">
-      <!-- TODO: Customize this explanation in your own words -->
       <p>
         Vibe coding is a new approach to learning software development where you describe
         what you want to build in plain English, work with AI tools to generate the code,
@@ -153,6 +214,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Connect CTA — conversion path (article: "attention without direction produces zero leverage") -->
+  <section class="mx-auto max-w-[var(--page-max-width)] px-6 pb-24">
+    <div class="rounded-lg border border-[var(--accent)]/30 bg-[var(--accent-muted)] p-8 text-center">
+      <h2 class="mb-3 text-xl font-bold text-[var(--text-heading)]">
+        Let's Connect
+      </h2>
+      <p class="mb-6 mx-auto max-w-md text-[var(--text-secondary)]">
+        Fellow learner, mentor, or just curious about vibe coding? I'd love to hear from you.
+      </p>
+      <a
+        href="/contact/"
+        class="inline-flex items-center rounded-lg bg-[var(--accent)] px-6 py-3 font-medium text-[var(--bg-primary)] transition-opacity hover:opacity-90"
+      >
+        Get in Touch
       </a>
     </div>
   </section>

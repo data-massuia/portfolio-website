@@ -25,23 +25,26 @@ const {
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const imageUrl = new URL(image, Astro.site);
 
-// TODO: Replace with your actual name and details
-const siteTitle = 'Douglas — Vibe Coder';
+const siteTitle = 'Douglas Massuia — Vibe Coder';
 const fullTitle = title === 'Home' ? siteTitle : `${title} | ${siteTitle}`;
 
 // JSON-LD structured data for search engines
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Douglas',
+  name: 'Douglas Massuia',
   url: Astro.site?.toString(),
   jobTitle: 'Aspiring Full-Stack Developer',
-  description: 'Beginner developer documenting the journey from zero to full-stack through vibe coding.',
+  description: 'Beginner developer in Vancouver documenting the journey from zero to full-stack through vibe coding.',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Vancouver',
     addressCountry: 'CA',
   },
+  sameAs: [
+    'https://github.com/data-massuia',
+    'https://www.linkedin.com/in/douglas-massuia/',
+  ],
 };
 ---
 
@@ -49,6 +52,7 @@ const jsonLd = {
 <title>{fullTitle}</title>
 <meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
+<meta name="author" content="Douglas Massuia" />
 <link rel="canonical" href={canonicalUrl} />
 
 <!-- Open Graph / Facebook -->
